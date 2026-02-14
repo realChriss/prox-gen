@@ -134,7 +134,7 @@ function generateEmailLocal(firstName: string, lastName: string): string {
   const year = randInt(70, 99).toString();
   const num = randInt(1, 999).toString();
 
-  return `${first}${randInt(1, 99)}${randInt(0, 1) ? "_" : "."}${last}${randInt(1, 99)}`;
+  return `${first}${randInt(99, 9999)}${last}${randInt(99, 999)}`;
 
   switch (style) {
     case "firstlast":
