@@ -27,6 +27,7 @@ async function main() {
 
   console.log("user", user)
 
+  // Outlook register
   await outlook.goto('https://signup.live.com/signup');
   await outlook.locator('input[type="email"]').fill(user.email);
   await outlook.locator('button[type="submit"]').click();
@@ -47,8 +48,8 @@ async function main() {
   await outlook.waitForTimeout(500);
   await outlook.locator('div[role="listbox"]').waitFor({ state: 'visible' });
   await outlook.waitForTimeout(500);
-  const MonthItem = await getRandomDiv(outlook, 'div[role="listbox"]')
-  await MonthItem.click();
+  const monthItem = await getRandomDiv(outlook, 'div[role="listbox"]')
+  await monthItem.click();
   await outlook.waitForTimeout(500);
   await outlook.locator('input[type="number"]').fill(getRandomInt(1980, 2006).toString());
   await outlook.locator('button[type="submit"]').click();
@@ -69,7 +70,7 @@ async function main() {
 
   await outlook.waitForURL("https://account.microsoft.com/?lang**")
 
-  // Webshare
+  // Webshare register
   const webshare = await browser.newPage()
   await webshare.goto("https://dashboard.webshare.io/register")
   await webshare.locator('input[id="email-input"]').waitFor({ state: 'visible' });
@@ -81,6 +82,7 @@ async function main() {
 
   await webshare.close()
 
+  // Open Email
   await outlook.locator('button[title="App launcher"]').click();
   await outlook.waitForTimeout(300);
 
@@ -94,6 +96,7 @@ async function main() {
 
   await outlookEmail.locator("a", { hasText: "Verify Email" }).waitFor({ state: "visible" });
 
+  // Get Proxies
   const [webshareVerified] = await Promise.all([
     outlookEmail.waitForEvent("popup"),
     outlookEmail.locator("a", { hasText: "Verify Email" }).click()
@@ -113,6 +116,7 @@ async function main() {
   await webshareVerified.locator("a", { hasText: /Download Proxy List/ }).waitFor({ state: "visible" });
   const api = await webshareVerified.locator('input[type="text"]').inputValue();
 
+  // Fetch Proxies
   const response = await fetch(api);
   const text = await response.text();
   console.log("Proxies:\n\n" + text)
